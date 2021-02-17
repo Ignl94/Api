@@ -9,7 +9,7 @@ from geopy.geocoders import Nominatim
 
 
 ################################################################################
-## SETUP
+# SETUP
 ################################################################################
 
 app = Flask(__name__)
@@ -24,7 +24,7 @@ API_URL = 'http://api.openweathermap.org/data/2.5/weather'
 
 
 ################################################################################
-## ROUTES
+# ROUTES
 ################################################################################
 
 @app.route('/')
@@ -36,45 +36,50 @@ def home():
     }
     return render_template('home.html', **context)
 
+
 def get_letter_for_units(units):
     """Returns a shorthand letter for the given units."""
     return 'F' if units == 'imperial' else 'C' if units == 'metric' else 'K'
+
 
 @app.route('/results')
 def results():
     """Displays results for current weather conditions."""
     # TODO: Use 'request.args' to retrieve the city & units from the query
     # parameters.
-    city = ''
-    units = ''
+    city = request.args.get('city')
+    units = request.args.get('units')
 
     params = {
         # TODO: Enter query parameters here for the 'appid' (your api key),
         # the city, and the units (metric or imperial).
         # See the documentation here: https://openweathermap.org/current
+        'q': city,
+        'units': units,
+        'appid': API_KEY
 
     }
 
     result_json = requests.get(API_URL, params=params).json()
 
     # Uncomment the line below to see the results of the API call!
-    # pp.pprint(result_json)
+    pp.pprint(result_json)
 
     # TODO: Replace the empty variables below with their appropriate values.
     # You'll need to retrieve these from the result_json object above.
 
     # For the sunrise & sunset variables, I would recommend to turn them into
-    # datetime objects. You can do so using the `datetime.fromtimestamp()` 
+    # datetime objects. You can do so using the `datetime.fromtimestamp()`
     # function.
     context = {
         'date': datetime.now(),
-        'city': '',
-        'description': '',
-        'temp': '',
-        'humidity': '',
-        'wind_speed': '',
-        'sunrise': '',
-        'sunset': '',
+        'city': 'New York',
+        'description': 'Clear Sky',
+        'temp': 24.51,
+        'humidity': 42,
+        'wind_speed': 8.05,
+        'sunrise': datetime.fromtimestamp(1613562431),
+        'sunset': datetime.fromtimestamp(1613601188),
         'units_letter': get_letter_for_units(units)
     }
 
@@ -86,19 +91,47 @@ def comparison_results():
     """Displays the relative weather for 2 different cities."""
     # TODO: Use 'request.args' to retrieve the cities & units from the query
     # parameters.
-    city1 = ''
-    city2 = ''
-    units = ''
+    city1 = request.args.get('city1')
+    city2 = request.args.get('city2')
+    units = request.args.get('units')
 
-    # TODO: Make 2 API calls, one for each city. HINT: You may want to write a 
+    paramsForCity1 = {
+        'q': city1,
+        'units': units,
+        'appid': API_KEY
+    }
+
+    paramsForCity2 = {
+        'q': city2,
+        'units': units,
+        'appid': API_KEY
+    }
+
+    # duplicate the steps for making result_json1 again for json2!
+
+    # TODO: Make 2 API calls, one for each city. HINT: You may want to write a
     # helper function for this!
+    result_json1 = requests.get(API_URL, params=paramsForCity1).json()
 
+    result_json2 = requests.get(API_URL, params=paramsForCity2).json()
+
+    pp.pprint(result_json1)
+    print("-------------------------------------------------------------")
+    pp.pprint(result_json2)
 
     # TODO: Pass the information for both cities in the context. Make sure to
     # pass info for the temperature, humidity, wind speed, and sunset time!
-    # HINT: It may be useful to create 2 new dictionaries, `city1_info` and 
+    # HINT: It may be useful to create 2 new dictionaries, `city1_info` and
     # `city2_info`, to organize the data.
     context = {
+        'date': datetime.now(),
+        'city1Name': 'New York',
+        'city2Name': 'Chicago',
+        'temp': 9.36,
+        'humidity': 37,
+        'wind_speed': 3.44,
+        'sunset': datetime.fromtimestamp(3180),
+        'units_letter': get_letter_for_units(units)
 
     }
 
