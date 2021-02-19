@@ -73,13 +73,13 @@ def results():
     # function.
     context = {
         'date': datetime.now(),
-        'city': 'New York',
-        'description': 'Clear Sky',
-        'temp': 24.51,
-        'humidity': 42,
-        'wind_speed': 8.05,
-        'sunrise': datetime.fromtimestamp(1613562431),
-        'sunset': datetime.fromtimestamp(1613601188),
+        'city': result_json['name'],
+        'description': result_json['weather'][0]['description'],
+        'temp': result_json['main']['temp'],
+        'humidity': result_json['main']['humidity'],
+        'wind_speed': result_json['wind']['speed'],
+        'sunrise': datetime.fromtimestamp(result_json['sys']['sunrise']),
+        'sunset': datetime.fromtimestamp(result_json['sys']['sunset']),
         'units_letter': get_letter_for_units(units)
     }
 
@@ -125,12 +125,16 @@ def comparison_results():
     # `city2_info`, to organize the data.
     context = {
         'date': datetime.now(),
-        'city1Name': 'New York',
-        'city2Name': 'Chicago',
-        'temp': 9.36,
-        'humidity': 37,
-        'wind_speed': 3.44,
-        'sunset': datetime.fromtimestamp(3180),
+        'city1Name': result_json1['name'],
+        'city2Name': result_json2['name'],
+        'city1Temp': result_json1['main']['temp'],
+        'city2Temp': result_json2['main']['temp'],
+        'city1Humidity': result_json1['main']['humidity'],
+        'city2Humidity': result_json2['main']['humidity'],
+        'city1WindSpeed': result_json1['wind']['speed'],
+        'city2WindSpeed': result_json2['wind']['speed'],
+        'city1Sunset': datetime.fromtimestamp(result_json1['sys']['sunset']),
+        'city2Sunset': datetime.fromtimestamp(result_json2['sys']['sunset']),
         'units_letter': get_letter_for_units(units)
 
     }

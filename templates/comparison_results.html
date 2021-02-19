@@ -8,24 +8,55 @@
 
   {# TODO: Add the temperature, description, and min & max temperature below.
   Replace 'F' with the appropriate units. #}
+  <!-- ------------ -->
+  {% if city1Temp - city2Temp < 0 %}
   <p>
-    It is {{temp}} {{units_letter}} WARMER in {{city1Name}} than in
-    {{city2Name}} today.
+    It is {{city1Temp - city2Temp}} {{units_letter}} Colder in {{city1Name}}
+    than in {{city2Name}} today.
   </p>
-
+  {% else %}
   <p>
-    The humidity in {{city1Name}} is {{humidity}} LESS than in {{city2Name}}.
+    It is {{city1Temp - city2Temp}} {{units_letter}} Warmer in {{city1Name}}
+    than in {{city2Name}} today.
   </p>
-
+  {% endif %}
+  <!-- ----------------- -->
+  {% if city1Humidity - city2Humidity < 0 %}
   <p>
-    The wind speed in {{city1Name}} is {{wind_speed}} GREATER than in
-    {{city2Name}}.
+    The humidity in {{city1Name}} is {{city1Humidity - city2Humidity}} Less than
+    in {{city2Name}}.
   </p>
-
+  {% else %}
   <p>
-    The sun sets in {{city1Name}} {{sunset}} hours EARLIER than in
-    {{city2Name}}.
+    The humidity in {{city1Name}} is {{city1Humidity - city2Humidity}} More than
+    in {{city2Name}}.
   </p>
+  {% endif %}
+  <!-- --------------------- -->
+  {% if city1WindSpeed - city2WindSpeed < 0 %}
+  <p>
+    The wind speed in {{city1Name}} is {{city1WindSpeed - city2WindSpeed}}
+    Lesser than in {{city2Name}}.
+  </p>
+  {% else %}
+  <p>
+    The wind speed in {{city1Name}} is {{city1WindSpeed - city2WindSpeed}}
+    Greater than in {{city2Name}}.
+  </p>
+  {% endif %}
+  <!-- ------------Sunset Runs an error ' < ' not supported  -->
+  {% if city1Sunset - city2Sunset < 0 %}
+  <p>
+    The sun sets in {{city1Name}} {{city1Sunset - city2Sunset}} hours Earlier
+    than in {{city2Name}}.
+  </p>
+  {% else %}
+  <p>
+    The sun sets in {{city1Name}} {{city1Sunset - city2Sunset}} hours Later than
+    in {{city2Name}}.
+  </p>
+  {% endif %}
 </section>
 
-{% endblock %}
+  {% endblock %}
+</section>
