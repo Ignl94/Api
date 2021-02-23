@@ -45,9 +45,9 @@
   </p>
   {% endif %}
   <!-- ------------Sunset Runs an error ' < ' not supported  -->
-  {% if city1Sunset - city2Sunset < 0 %}
+  {% if city1Sunset < city2Sunset %}
   <p>
-    The sun sets in {{city1Name}} {{city1Sunset - city2Sunset}} hours Earlier
+    The sun sets in {{city1Name}} {{city2Sunset - city1Sunset}} hours Earlier
     than in {{city2Name}}.
   </p>
   {% else %}
